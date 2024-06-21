@@ -1,4 +1,4 @@
-package main
+package sum
 
 import (
 	"reflect"
@@ -14,6 +14,39 @@ func TestSum(t *testing.T) {
 
 		if got != want {
 			t.Errorf("got %d want %d given, %v", got, want, numbers)
+		}
+	})
+}
+
+func TestMult(t *testing.T) {
+	t.Run("positive numbers", func(t *testing.T) {
+		numbers := []int{1, 2, 3}
+
+		got := Mult(numbers)
+		want := 6
+
+		if got != want {
+			t.Errorf("got %d want %d given, %v", got, want, numbers)
+		}
+	})
+
+	t.Run("empty slice", func(t *testing.T) {
+		numbers := []int{}
+
+		got := Mult(numbers)
+		want := 0
+
+		if got != want {
+			t.Errorf("got %d want %d given, %v", got, want, numbers)
+		}
+	})
+
+	t.Run("nil slice", func(t *testing.T) {
+		got := Mult(nil)
+		want := 0
+
+		if got != want {
+			t.Errorf("got %d want %d", got, want)
 		}
 	})
 }
