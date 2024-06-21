@@ -1,6 +1,7 @@
 package sum
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -16,6 +17,23 @@ func TestSum(t *testing.T) {
 			t.Errorf("got %d want %d given, %v", got, want, numbers)
 		}
 	})
+}
+
+func ExampleReduceInt() {
+	multiply := func(x, y int) int { return x * y }
+	factors := []int{1, 2, 3, 4}
+
+	product := ReduceInt(factors, multiply)
+	fmt.Println(product) // Output: 24
+}
+
+func ExampleFoldInt() {
+	multiplicand := 7
+	multipliers := []int{1, 2, 3, 4}
+	multiply := func(x, y int) int { return x * y }
+
+	product := FoldInt(multipliers, multiplicand, multiply)
+	fmt.Println(product) // Output: 168
 }
 
 func TestMult(t *testing.T) {
