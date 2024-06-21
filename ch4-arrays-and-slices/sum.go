@@ -1,6 +1,6 @@
 package sum
 
-import "learn-go-with-tests/integers"
+import "learn-go-with-tests/ch2-integers"
 
 func SumAll(numbersToSum ...[]int) (sums []int) {
 	for _, numbers := range numbersToSum {
