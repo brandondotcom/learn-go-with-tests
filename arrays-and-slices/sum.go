@@ -1,5 +1,7 @@
 package sum
 
+import "learn-go-with-tests/integers"
+
 func SumAll(numbersToSum ...[]int) (sums []int) {
 	for _, numbers := range numbersToSum {
 		sums = append(sums, Sum(numbers))
@@ -36,10 +38,7 @@ func Mult(numbers []int) int {
 }
 
 func Sum(numbers []int) int {
-	add := func(x, y int) int {
-		return x + y
-	}
-	return ReduceInt(numbers, add)
+	return ReduceInt(numbers, integers.Add)
 }
 
 type IntOperation func(acc, next int) int
