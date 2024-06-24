@@ -4,12 +4,38 @@ import "math"
 
 type Shape interface {
 	Area() float64
+	GetShape() Shape
+}
+
+type Squareable interface {
+	MakeSquare()
+}
+
+func (r *Rectangle) MakeSquare() {
+	r.Width = r.Height
 }
 
 type Rectangle struct {
 	Width  float64
 	Height float64
 }
+
+func (r Rectangle) GetShape() Shape {
+	return r
+}
+
+func (r Circle) GetShape() Shape {
+	return r
+}
+
+func (r Triangle) GetShape() Shape {
+	return r
+}
+
+var _ Squareable = (*Rectangle)(nil)
+var _ Squareable = &Rectangle{}
+var _ Shape = Rectangle{}
+var _ Shape = (*Rectangle)(nil)
 
 // Perimeter calculates the perimiter of a rectangle given a height and width
 func (r Rectangle) Perimeter() float64 {
