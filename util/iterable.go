@@ -1,21 +1,28 @@
 package util
 
-type IntOperation func(acc, next int) int
+type Accumulate[T any] func(acc, next T) T
+type Iterable[T any] interface {
+	// Fold Accumulates value starting w/ initial and applying operation from left to right
+	Fold(initial T, operation Accumulate[T]) T
 
-// FoldInt Accumulates value starting w/ initial and applying operation from left to right
-func FoldInt(numbers []int, initial int, operation IntOperation) int {
-	if len(numbers) == 0 {
-		return initial
-	} else {
-		return FoldInt(numbers[1:], operation(initial, numbers[0]), operation)
-	}
+	// Reduce Accumulates value applying operation from left to right
+	Reduce(operation Accumulate[T]) T
 }
 
-// ReduceInt Accumulates value applying operation from left to right
-func ReduceInt(numbers []int, operation IntOperation) int {
-	if len(numbers) == 0 {
-		return 0
+type List[T any] []T
+
+func (l List[T]) Fold(initial T, operation Accumulate[T]) T {
+	if len(l) == 0 {
+		return initial
 	} else {
-		return FoldInt(numbers[1:], numbers[0], operation)
+		return l[1:].Fold(operation(initial, l[0]), operation)
+	}
+}
+func (l List[T]) Reduce(operation Accumulate[T]) T {
+	if len(l) == 0 {
+		var zero T
+		return zero
+	} else {
+		return l[1:].Fold(l[0], operation)
 	}
 }

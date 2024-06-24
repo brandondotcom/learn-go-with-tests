@@ -37,9 +37,9 @@ func Mult(numbers []int) int {
 		return x * y
 	}
 
-	return util.ReduceInt(numbers, multiply)
+	return util.List[int](numbers).Reduce(multiply)
 }
 
 func Sum(numbers []int) int {
-	return util.ReduceInt(numbers, integers.Add)
+	return util.List[int](numbers).Reduce(integers.Add)
 }

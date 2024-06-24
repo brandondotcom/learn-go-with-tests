@@ -2,19 +2,19 @@ package util
 
 import "fmt"
 
-func ExampleReduceInt() {
+func ExampleReduce() {
 	multiply := func(x, y int) int { return x * y }
-	factors := []int{1, 2, 3, 4}
+	factors := List[int]([]int{1, 2, 3, 4})
 
-	product := ReduceInt(factors, multiply)
+	product := factors.Reduce(multiply)
 	fmt.Println(product) // Output: 24
 }
 
-func ExampleFoldInt() {
+func ExampleFold() {
 	multiplicand := 7
-	multipliers := []int{1, 2, 3, 4}
+	multipliers := List[int]([]int{1, 2, 3, 4})
 	multiply := func(x, y int) int { return x * y }
 
-	product := FoldInt(multipliers, multiplicand, multiply)
+	product := multipliers.Fold(multiplicand, multiply)
 	fmt.Println(product) // Output: 168
 }
