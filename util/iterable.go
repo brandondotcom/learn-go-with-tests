@@ -45,6 +45,18 @@ func Map[T, R any](l List[T], transform Transform[T, R]) List[R] {
 // List implements the Iterable interface using slices.
 type List[T any] []T
 
+// NewList is a convenience function to create a List using trailing arguments
+// so that a List can be initialized like this:
+//
+//	l := NewList(1,2,3,4)
+//
+// instead of like this:
+//
+//	l := List[int]([]int{1,2,3,4})
+//
+// TODO: find out if this is idiomatic or if there's another way to shorten initialization
+func NewList[T any](e ...T) List[T] { return e }
+
 func (l List[T]) Fold(initial T, operation Accumulate[T]) T {
 	if len(l) == 0 {
 		return initial
