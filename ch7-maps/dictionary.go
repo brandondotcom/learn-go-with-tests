@@ -14,6 +14,10 @@ const (
 	ErrWordDoesNotExist = DictionaryErr("cannot update word because it does not exist")
 )
 
+func (d Dictionary) Delete(word string) {
+	delete(d, word)
+}
+
 func (e DictionaryErr) Error() string {
 	return string(e)
 }
