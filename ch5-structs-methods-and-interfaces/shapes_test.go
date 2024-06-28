@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestPerimeter(t *testing.T) {
 	rectangle := Rectangle{10.0, 10.0}
@@ -30,6 +33,7 @@ func TestArea(t *testing.T) {
 			switch v := tt.shape.(type) {
 			default:
 				t.Logf("type of %s, %T", tt.name, v)
+				t.Logf("type of %s, %v", tt.name, reflect.TypeOf(tt.shape))
 			}
 			_, squareableCheck := tt.shape.(Squareable)
 			if squareableCheck != tt.isSquareable {
@@ -53,5 +57,4 @@ func TestMakeSquare(t *testing.T) {
 	if rectangle.Height != rectangle.Width {
 		t.Errorf("Expected height and width to be equal, got height: %g, width: %g", rectangle.Height, rectangle.Width)
 	}
-
 }

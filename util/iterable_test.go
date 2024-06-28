@@ -47,9 +47,30 @@ func TestNewList(t *testing.T) {
 }
 
 func TestList_Fold(t *testing.T) {
+	type foldTest[T any] struct {
+		name    string
+		want    T
+		initial T
+		input   List[T]
+		acc     Accumulate[T]
+	}
+
+	assertFoldResult := func(name string, got, want any, initial any, t *testing.T) {
+		t.Helper()
+		if got != want {
+			t.Errorf("%s: got %v, want %v, given initial value: %v", name, got, want, initial)
+		}
+	}
 
 	t.Run("with a function reference", func(t *testing.T) {
+		add := func(x, y int) int { return x + y }
 
+		l := NewList(1, 2, 3, 4, 5)
+
+		got := l.Fold(3, add)
+		want := 18
+
+		assertFoldResult("with a function reference", got, want, 3, t)
 	})
 
 	t.Run("with a closure capturing local scope", func(t *testing.T) {
