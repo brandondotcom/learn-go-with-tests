@@ -11,6 +11,9 @@ type Predicate[T any] func(t T) bool
 // Iterable is a collection whose elements can be iterated over.
 type Iterable[T any] interface {
 
+	// All returns true if all elements match the given predicate
+	All(pred Predicate[T]) bool
+
 	// Filter returns a new list containing all elements of this Iterable that match a given Predicate.
 	Filter(pred Predicate[T]) Iterable[T]
 
@@ -57,6 +60,15 @@ type List[T any] []T
 // TODO: find out if this is idiomatic or if there's another way to shorten initialization
 func NewList[T any](e ...T) List[T] { return e }
 
+func (l List[T]) All(pred Predicate[T]) bool {
+	// TODO: short circuit in a for
+	return Map(l, func(in T) bool {
+		return pred(in)
+	}).Reduce(func(x, y bool) bool {
+		return x && y
+	})
+}
+
 func (l List[T]) Fold(initial T, operation Accumulate[T]) T {
 	if len(l) == 0 {
 		return initial
@@ -64,6 +76,7 @@ func (l List[T]) Fold(initial T, operation Accumulate[T]) T {
 		return l[1:].Fold(operation(initial, l[0]), operation)
 	}
 }
+
 func (l List[T]) Reduce(operation Accumulate[T]) T {
 	if len(l) == 0 {
 		var zero T
@@ -71,6 +84,18 @@ func (l List[T]) Reduce(operation Accumulate[T]) T {
 	} else {
 		return l[1:].Fold(l[0], operation)
 	}
+}
+
+func (l List[T]) Filter(pred Predicate[T]) Iterable[T] {
+	var f List[T]
+
+	for _, x := range l {
+		if pred(x) {
+			f = append(f, x)
+		}
+	}
+
+	return f
 }
 
 // endregion
