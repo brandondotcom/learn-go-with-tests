@@ -8,11 +8,28 @@ type Dictionary map[string]string
 
 type DictionaryErr string
 
+type DictionaryItem struct {
+	word       string
+	definition string
+}
+
 const (
 	ErrNotFound         = DictionaryErr("could not find the word you were looking for")
 	ErrWordExists       = DictionaryErr("cannot add word because it already exists")
 	ErrWordDoesNotExist = DictionaryErr("cannot update word because it does not exist")
 )
+
+func (d Dictionary) GetAll() (items []DictionaryItem) {
+	for k, v := range d {
+		items = append(items, DictionaryItem{k, v})
+	}
+
+	return items
+}
+
+func (d Dictionary) DeleteAll() {
+	clear(d)
+}
 
 func (d Dictionary) Delete(word string) {
 	delete(d, word)

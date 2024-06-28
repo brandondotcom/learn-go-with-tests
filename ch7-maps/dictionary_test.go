@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestDelete(t *testing.T) {
 	word := "test"
@@ -10,6 +13,32 @@ func TestDelete(t *testing.T) {
 
 	_, err := dictionary.Search(word)
 	assertError(t, err, ErrNotFound)
+}
+
+func TestGetAll(t *testing.T) {
+	d := Dictionary{
+		"a": "first letter of alphabet",
+		"b": "second letter of alphabet",
+	}
+
+	all := d.GetAll()
+
+	fmt.Printf("Dictionary:\n %v", d)
+
+	fmt.Printf("All entries:\n %v", all)
+
+	if len(all) != 2 {
+		t.Errorf("Expecting 2 words, got %d", len(d))
+	}
+}
+
+func TestDeleteAll(t *testing.T) {
+	d := Dictionary{"foo": "bar"}
+	d.DeleteAll()
+
+	if len(d) != 0 {
+		t.Errorf("expected empty dictionary, but got %v", d)
+	}
 }
 
 func TestUpdate(t *testing.T) {
