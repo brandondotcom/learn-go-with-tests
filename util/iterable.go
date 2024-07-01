@@ -20,7 +20,7 @@ type Iterable[T any] interface {
 	// Fold accumulates value starting w/ initial and applying operation from left to right
 	Fold(initial T, operation Accumulate[T]) T
 
-	// Reduce accumulates values applying operation from left to right
+	// Reduce accumulates values applying an operation from left to right
 	Reduce(operation Accumulate[T]) T
 }
 

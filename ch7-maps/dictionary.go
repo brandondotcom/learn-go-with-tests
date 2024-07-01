@@ -2,16 +2,12 @@ package main
 
 import (
 	"errors"
+	"sort"
 )
 
 type Dictionary map[string]string
 
 type DictionaryErr string
-
-type DictionaryItem struct {
-	word       string
-	definition string
-}
 
 const (
 	ErrNotFound         = DictionaryErr("could not find the word you were looking for")
@@ -19,9 +15,42 @@ const (
 	ErrWordDoesNotExist = DictionaryErr("cannot update word because it does not exist")
 )
 
+type DictionaryItem struct {
+	word       string
+	definition string
+}
+
 func (d Dictionary) GetAll() (items []DictionaryItem) {
 	for k, v := range d {
 		items = append(items, DictionaryItem{k, v})
+	}
+
+	return items
+}
+
+func (d Dictionary) GetAllSortedByValue() (items []DictionaryItem) {
+	var values []string
+	for _, v := range d {
+		values = append(values, v)
+	}
+
+	sort.Strings(values)
+	for _, v := range values {
+		items = append(items, DictionaryItem{v, d[v]})
+	}
+
+	return items
+}
+
+func (d Dictionary) GetAllSorted() (items []DictionaryItem) {
+	var keys []string
+	for k := range d {
+		keys = append(keys, k)
+	}
+
+	sort.Strings(keys)
+	for _, k := range keys {
+		items = append(items, DictionaryItem{k, d[k]})
 	}
 
 	return items

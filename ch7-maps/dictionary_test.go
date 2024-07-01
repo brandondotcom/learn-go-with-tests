@@ -17,18 +17,21 @@ func TestDelete(t *testing.T) {
 
 func TestGetAll(t *testing.T) {
 	d := Dictionary{
-		"a": "first letter of alphabet",
+		"z": "third letter of alphabet",
 		"b": "second letter of alphabet",
+		"a": "first letter of alphabet",
 	}
 
 	all := d.GetAll()
+	sorted := d.GetAllSorted()
 
-	fmt.Printf("Dictionary:\n %v", d)
+	fmt.Printf("Dictionary: %v\n", d)
+	fmt.Printf("Dictionary(Go source format): %#v\n", d)
+	fmt.Printf("All entries: %v\n", all)
+	fmt.Printf("All entries (sorted): %v\n", sorted)
 
-	fmt.Printf("All entries:\n %v", all)
-
-	if len(all) != 2 {
-		t.Errorf("Expecting 2 words, got %d", len(d))
+	if len(all) != 3 {
+		t.Errorf("Expecting 3 words, got %d", len(d))
 	}
 }
 
