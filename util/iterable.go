@@ -11,8 +11,11 @@ type Predicate[T any] func(t T) bool
 // Iterable is a collection whose elements can be iterated over.
 type Iterable[T any] interface {
 
-	// All returns true if all elements match the given predicate
+	// All returns true if all elements match the given predicate.
 	All(pred Predicate[T]) bool
+
+	// Any returns true if at least one element matches the given predicate.
+	Any(pred Predicate[T]) bool
 
 	// Filter returns a new list containing all elements of this Iterable that match a given Predicate.
 	Filter(pred Predicate[T]) Iterable[T]
@@ -41,6 +44,13 @@ func Map[T, R any](l List[T], transform Transform[T, R]) List[R] {
 	return out
 }
 
+type KeyValueSelector[T, K, V any] func(in T) (key K, value V)
+
+// Associate returns a Map containing key/value pairs provided by a KeyValueTransform applied to each element of a List.
+func Associate[T, K, V any](l List[T], transform KeyValueSelector[T, K, V]) {
+
+}
+
 // endregion
 
 // region List
@@ -67,6 +77,10 @@ func (l List[T]) All(pred Predicate[T]) bool {
 	}).Reduce(func(x, y bool) bool {
 		return x && y
 	})
+}
+
+func (l List[T]) Any(pred Predicate[T]) bool {
+	return false
 }
 
 func (l List[T]) Fold(initial T, operation Accumulate[T]) T {
