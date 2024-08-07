@@ -29,7 +29,7 @@ func TestArea(t *testing.T) {
 
 	for _, tt := range areaTests {
 		// using tt.name from the case to use it as the `t.Run` test name
-		t.Run(tt.name, func(t *testing.T) {
+		go t.Run(tt.name, func(t *testing.T) {
 			switch v := tt.shape.(type) {
 			default:
 				t.Logf("type of %s, %T", tt.name, v)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"github.com/stretchr/testify/mock"
 	"reflect"
 	"testing"
 	"time"
@@ -42,6 +43,10 @@ Go!`
 			t.Errorf("wanted calls %v got %v", want, spySleepPrinter.Calls)
 		}
 	})
+
+	t.Run("with testify mocks", func(t *testing.T) {
+
+	})
 }
 
 func TestConfigurableSleeper(t *testing.T) {
@@ -54,6 +59,10 @@ func TestConfigurableSleeper(t *testing.T) {
 	if spyTime.durationSlept != sleepTime {
 		t.Errorf("should have slept for %v but slept for %v", sleepTime, spyTime.durationSlept)
 	}
+}
+
+type MockCountdownOperations struct {
+	mock.Mock
 }
 
 type SpyCountdownOperations struct {
